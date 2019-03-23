@@ -2,10 +2,11 @@
 using System.Json;
 using System.IO;
 using System.Collections.Generic;
+using FileComparison.Interfaces;
 
 namespace FileComparison
 {
-    public class JsonReader
+    public class JsonReader : IJsonReader
     {
         public JsonObject LoadFile(string path)
         {
@@ -26,6 +27,10 @@ namespace FileComparison
 
         public JsonArray GetArray(string json) {
             return JsonValue.Parse(json) as JsonArray;
+        }
+
+        public JsonObject GetJObject(string json) {
+            return JsonValue.Parse(json) as JsonObject;
         }
     }
 }

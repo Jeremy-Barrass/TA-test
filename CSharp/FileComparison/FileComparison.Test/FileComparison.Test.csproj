@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JsonReaderTests.cs" />
+    <Compile Include="ComparerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
