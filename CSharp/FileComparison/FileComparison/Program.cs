@@ -8,6 +8,8 @@ namespace FileComparison
     public class Comparer
     {
         protected IJsonReader _reader;
+        protected StringBuilder _builder = new StringBuilder();
+        protected string _result = string.Empty;
 
         public Comparer(IJsonReader reader) {
             _reader = reader;
@@ -26,32 +28,43 @@ namespace FileComparison
 
         }
 
-        public string BuildDifferenceOutput(JsonObject objOne, JsonObject objTwo) {
-            StringBuilder builder = new StringBuilder();
-            string result = string.Empty;
+        public string CompareJsonArrays(JsonArray aryOne, JsonArray aryTwo) {
+            return "";
+        }
 
-            var loopLength = objOne.Count < objTwo.Count ? objOne.Count : objTwo.Count;
-            var valuesOne = new JsonValue[objOne.Count];
-            var valuesTwo = new JsonValue[objTwo.Count];
-            objOne.Values.CopyTo(valuesOne, 0);
-            objTwo.Values.CopyTo(valuesTwo, 0);
+        public string CompareJsonObjects(JsonObject objOne, JsonObject objTwo) {
+            return "";
+        }
 
+        public string CompareKeys(string[] listOne, string[] listTwo) {
+            return "";
+        }
+        
+        public string CompareValues(JsonValue[] listOne, JsonValue[] listTwo) {
+            return BuildDifferenceOutput(ValueToString(listOne), ValueToString(listTwo));
+        }
+        
+        public string ComapareItemLengths(int lengthOne, int lengthTwo) {
+            if (lengthOne != lengthTwo) return $"{lengthOne}, {lengthTwo}";
+            return "";
+        }
+
+        public string BuildDifferenceOutput(string[] objOne, string[] objTwo) {
+            var loopLength = objOne.Length < objTwo.Length ? objOne.Length : objTwo.Length;
             for (var i = 0; i < loopLength; i++) {
-                if (valuesOne[i].ToString() != valuesTwo[i].ToString()) {
-                  builder.Append($"#{valuesOne[i]}, #{valuesTwo[i]} \n");
+                if (objOne[i] != objTwo[i]) {
+                  _builder.Append($"{objOne[i]}, {objOne[i]} \n");
                  }
             }
-            result = builder.ToString();
+            _result = _builder.ToString();
 
-            return result;
+            return _result;
         }
 
-        private string CompareKeys(string[] listOne, string[] listTwo) {
-
-        }
-
-        private string CompareValues(string[] listOne, string[] listTwo) {
-
+        private string[] ValueToString(JsonValue[] array) {
+            var stringArray = new string[array.Length];
+            array.CopyTo(stringArray, 0);
+            return stringArray;
         }
     }
 }
