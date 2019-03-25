@@ -8,6 +8,8 @@ To run the application manually, run the following command from the repo root:
 
 Unit tests should run in Resharper or whatever Test runner your IDE is using.
 
+Please ignore the `CSharp/` directory, this was not picked up in my command line for some reason - probably something to do with switch from a Linux to a Windows machine part-way through.  I'm comfortable developing on either once the appropriate environment is set up, they are not so comfortable with each other, of course...
+
 I originally started this tech test unsure of how to provide two different solutions to compare without switching languages, so started off with two directories, one for C# and one for Node.  I deleted Node after a few hours, when it occurred to me I could just read the file into two different formats, which is what the program now demonstrates.
 
 There are two solutions here:
