@@ -10,16 +10,18 @@ namespace FileComparison
 {
     public class Comparer
     {
-        protected IJsonReader _reader;
+        protected IJsonReader _jsonReader;
+        protected IFileReader _fileReader;
         protected StringBuilder _builder = new StringBuilder();
         protected string _result = string.Empty;
 
-        public Comparer(IJsonReader reader)
+        public Comparer(IJsonReader jsonReader, IFileReader fileReader)
         {
-            _reader = reader;
+            _jsonReader = jsonReader;
+            _fileReader = fileReader;
         }
 
-        public Comparer() : this(new JsonReader()) { }
+        public Comparer() : this(new JsonReader(), new FileReader()) { }
 
         public static void Main(string[] args)
         {
@@ -30,9 +32,11 @@ namespace FileComparison
             var FilePathTwo = args[1];
 
             Console.Write(comparer.BuildDifferenceOutput(
-              comparer._reader.GetArray(comparer._reader.LoadFile(FilePathOne)["items"].ToString()),
-              comparer._reader.GetArray(comparer._reader.LoadFile(FilePathTwo)["items"].ToString())
+              comparer._jsonReader.GetArray(comparer._jsonReader.LoadFile(FilePathOne)["items"].ToString()),
+              comparer._jsonReader.GetArray(comparer._jsonReader.LoadFile(FilePathTwo)["items"].ToString())
             ));
+
+
         }
 
         public string BuildDifferenceOutput(JsonArray arrayOne, JsonArray arrayTwo)
