@@ -38,14 +38,14 @@ namespace FileComparison
               comparer._jsonReader.GetArray(comparer._jsonReader.LoadFile(filePathTwo)["items"].ToString())
             ));
             comparer._builder.Clear();
-            Console.WriteLine($"Average run time: {comparer.LogPerformanceJson(filePathOne, filePathOne)}");
+            Console.WriteLine($"\nAverage run time: {comparer.LogPerformanceJson(filePathOne, filePathOne)}");
 
             Console.Write("\n" + comparer.BuildDifferenceOutputFromString(
                comparer._fileReader.LoadFile(filePathOne),
                comparer._fileReader.LoadFile(filePathTwo)
             ));
             comparer._builder.Clear();
-            Console.WriteLine($"Average run time: {comparer.LogPerformanceString(filePathOne, filePathTwo)}");
+            Console.WriteLine($"\nAverage run time: {comparer.LogPerformanceString(filePathOne, filePathTwo)}");
 
         }
 
