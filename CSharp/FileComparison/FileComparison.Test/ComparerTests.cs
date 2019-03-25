@@ -39,7 +39,7 @@ namespace FileComparison.Test
         {
             var result = "";
             // Act
-            // var result = _comparer.BuildDifferenceOutput(_list1, _list2);
+            // var result = _comparer.BuildDifferenceOutputFromJson(_list1, _list2);
 
             // Assert
             Assert.That(result.Contains("pear"));

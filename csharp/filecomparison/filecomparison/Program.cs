@@ -31,21 +31,46 @@ namespace FileComparison
 
             var FilePathTwo = args[1];
 
-            Console.Write(comparer.BuildDifferenceOutput(
+            Console.Write(comparer.BuildDifferenceOutputFromJson(
               comparer._jsonReader.GetArray(comparer._jsonReader.LoadFile(FilePathOne)["items"].ToString()),
               comparer._jsonReader.GetArray(comparer._jsonReader.LoadFile(FilePathTwo)["items"].ToString())
             ));
 
+            comparer._builder.Clear();
 
+            Console.Write("\n" + comparer.BuildDifferenceOutputFromString(
+               comparer._fileReader.LoadFile(FilePathOne),
+               comparer._fileReader.LoadFile(FilePathTwo)
+            ));
         }
 
-        public string BuildDifferenceOutput(JsonArray arrayOne, JsonArray arrayTwo)
+        public string BuildDifferenceOutputFromJson(JsonArray arrayOne, JsonArray arrayTwo)
         {
             CompareJsonArrays(arrayOne, arrayTwo);
 
             _result = _builder.ToString();
 
             return _result;
+        }
+
+        public string BuildDifferenceOutputFromString(string item1, string item2)
+        {
+            var array1 = item1.Split('\n');
+            var array2 = item2.Split('\n');
+
+            var loopLength = GetLoopLength(array1.Length, array2.Length);
+
+            if (CompareItemLengths(item1.Length, item2.Length) != string.Empty)
+                _builder.Append($"File Length (in characters): {CompareItemLengths(item1.Length, item2.Length)}\n");
+
+            for (var i = 0; i < loopLength; i++)
+            {
+                if (CompareStrings(array1[i], array2[i]) != string.Empty) _builder.Append($"Line {i+1}: {array1[i]}, {array2[i]}\n");
+            }
+
+            _builder.Append(GetRemainingItems(array1, array2));
+
+            return _builder.ToString();
         }
 
         public void CompareJsonArrays(JsonArray aryOne, JsonArray aryTwo)
