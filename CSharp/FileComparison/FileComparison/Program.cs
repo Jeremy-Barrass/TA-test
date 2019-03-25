@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Json;
 using System.Linq;
 using System.Text;
+using System.Timers;
 using FileComparison.Interfaces;
 
 namespace FileComparison
@@ -27,21 +29,24 @@ namespace FileComparison
         {
             var comparer = new Comparer();
 
-            var FilePathOne = args[0];
+            var filePathOne = args[0];
 
-            var FilePathTwo = args[1];
+            var filePathTwo = args[1];
 
             Console.Write(comparer.BuildDifferenceOutputFromJson(
-              comparer._jsonReader.GetArray(comparer._jsonReader.LoadFile(FilePathOne)["items"].ToString()),
-              comparer._jsonReader.GetArray(comparer._jsonReader.LoadFile(FilePathTwo)["items"].ToString())
+              comparer._jsonReader.GetArray(comparer._jsonReader.LoadFile(filePathOne)["items"].ToString()),
+              comparer._jsonReader.GetArray(comparer._jsonReader.LoadFile(filePathTwo)["items"].ToString())
             ));
-
             comparer._builder.Clear();
+            Console.WriteLine($"Average run time: {comparer.LogPerformanceJson(filePathOne, filePathOne)}");
 
             Console.Write("\n" + comparer.BuildDifferenceOutputFromString(
-               comparer._fileReader.LoadFile(FilePathOne),
-               comparer._fileReader.LoadFile(FilePathTwo)
+               comparer._fileReader.LoadFile(filePathOne),
+               comparer._fileReader.LoadFile(filePathTwo)
             ));
+            comparer._builder.Clear();
+            Console.WriteLine($"Average run time: {comparer.LogPerformanceString(filePathOne, filePathTwo)}");
+
         }
 
         public string BuildDifferenceOutputFromJson(JsonArray arrayOne, JsonArray arrayTwo)
@@ -51,6 +56,24 @@ namespace FileComparison
             _result = _builder.ToString();
 
             return _result;
+        }
+
+        public float LogPerformanceJson(string filePathOne, string filePathTwo)
+        {
+            var stopwatch = new Stopwatch();
+            var time = new List<float>();
+            for (var x = 0; x < 1000; x++)
+            {
+                stopwatch.Start();
+                BuildDifferenceOutputFromJson(
+                    _jsonReader.GetArray(_jsonReader.LoadFile(filePathOne)["items"].ToString()),
+                    _jsonReader.GetArray(_jsonReader.LoadFile(filePathTwo)["items"].ToString())
+                );
+                stopwatch.Stop();
+                time.Add(stopwatch.ElapsedMilliseconds);
+                stopwatch.Reset();
+            }
+            return time.Average();
         }
 
         public string BuildDifferenceOutputFromString(string item1, string item2)
@@ -72,6 +95,25 @@ namespace FileComparison
 
             return _builder.ToString();
         }
+
+        public float LogPerformanceString(string filePathOne, string filePathTwo)
+        {
+            var stopwatch = new Stopwatch();
+            var time = new List<float>();
+            for (var x = 0; x < 1000; x++)
+            {
+                stopwatch.Start();
+                BuildDifferenceOutputFromString(
+                    _jsonReader.GetArray(_jsonReader.LoadFile(filePathOne)["items"].ToString()),
+                    _jsonReader.GetArray(_jsonReader.LoadFile(filePathTwo)["items"].ToString())
+                );
+                stopwatch.Stop();
+                time.Add(stopwatch.ElapsedMilliseconds);
+                stopwatch.Reset();
+            }
+            return time.Average();
+        }
+
 
         public void CompareJsonArrays(JsonArray aryOne, JsonArray aryTwo)
         {
