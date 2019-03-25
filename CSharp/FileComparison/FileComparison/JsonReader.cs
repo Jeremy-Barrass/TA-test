@@ -8,13 +8,13 @@ namespace FileComparison
 {
     public class JsonReader : IJsonReader
     {
-        public JsonObject LoadFile(string path)
+        public JsonValue LoadFile(string path)
         {
             try
             {
                 using (StreamReader sr = new StreamReader(path))
                 {
-                    return JsonValue.Parse(sr.ReadToEnd()) as JsonObject;
+                    return JsonValue.Parse(sr.ReadToEnd());
                 }
             }
             catch (Exception e)

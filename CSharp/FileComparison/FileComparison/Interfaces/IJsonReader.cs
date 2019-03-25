@@ -5,7 +5,7 @@ namespace FileComparison.Interfaces
 {
     public interface IJsonReader
     {
-        JsonObject LoadFile(string path);
+        JsonValue LoadFile(string path);
         JsonArray GetArray(string json);
         JsonObject GetJObject(string json);
     }
