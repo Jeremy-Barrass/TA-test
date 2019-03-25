@@ -18,13 +18,13 @@ There are two solutions here:
 
 The first method is clearly superior, producing a highly human readable table of granular differences, and running in approximately 4.5 milliseconds on average.
 
-### Pro: Easy to read, performance can be logged, Test driven.
-### Cons: Took multiple hours and couple of hundred lines to code.
+##### Pro: Easy to read, performance can be logged, Test driven.
+##### Cons: Took multiple hours and couple of hundred lines to code.
 
 The second produces a difficult to read list and breaks when run through its performance logger.
 
-### Pros: Written in half an hour with 82 lines of code.  Built on work for Json Reading method.
-### Cons: Performance logging doesn't work, output is not really comprehensible.
+##### Pros: Written in half an hour with 82 lines of code.  Built on work for Json Reading method.
+##### Cons: Performance logging doesn't work, output is not really comprehensible.
 
 Method two could probably be improved with additional work to sort out the formatting and improve separation of concerns in the Comparer application.  I suspect with that in place it would ultimately take longer on average, as there would be additional processing to make the output human-readable.
 
